@@ -17,23 +17,8 @@
 <?import javafx.scene.control.TableColumn?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@StudentInfoStyles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.KurssitController">
    <children>
-      <Text layoutX="450.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kurssit" textAlignment="CENTER" textOrigin="CENTER">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Text>
-      <Button fx:id="ProfiiliButton" contentDisplay="RIGHT" layoutX="680.0" layoutY="14.0" mnemonicParsing="false" onAction="#openProfiiliPage" prefHeight="25.0" prefWidth="90.0" styleClass="profiili-button" text="Profiili" AnchorPane.rightAnchor="152.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Line endX="913.0" layoutX="105.0" layoutY="73.0" startX="-105.0" />
-      <Button fx:id="LogOutButton" contentDisplay="RIGHT" layoutX="905.0" layoutY="14.0" mnemonicParsing="false" onAction="#CloseProgram" prefHeight="25.0" prefWidth="120.0" styleClass="logout-button" text="Kirjaudu ulos" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="14.0" />
-      <Text layoutX="40.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-label-title" text="Kurssin tiedot">
-         <font>
-            <Font name="System Bold" size="19.0" />
-         </font>
-      </Text>
+      <fx:include source="HeaderComponent.fxml"/>
+
       <TableView fx:id="CourseTableView" layoutX="480.0" layoutY="178.0" prefHeight="303.0" prefWidth="459.0" styleClass="table-view">
          <columns>
             <TableColumn fx:id="courseNameColumn" text="Kurssin nimi" />
@@ -85,10 +70,5 @@
       </GridPane>
 
       <TextField fx:id="SearchTextField" layoutX="480.0" layoutY="110.0" prefHeight="22.0" prefWidth="200.0" promptText="Hae kurssia" styleClass="search-text" />
-      <Button fx:id="TakaisinButton" contentDisplay="RIGHT" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#navigateBackwards" prefHeight="25.0" prefWidth="90.0" styleClass="back-button" text="Takaisin" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

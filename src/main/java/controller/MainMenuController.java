@@ -19,6 +19,8 @@ import model.KirjautunutKayttaja;
 import model.Kurssi;
 import model.Oppitunti;
 import service.KurssiService;
+import util.NavigationManager;
+import util.ResourceBundleManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -66,85 +68,41 @@ public class MainMenuController {
 
     @FXML
     void CloseProgram(ActionEvent event) {
-        KirjautunutKayttaja.getInstance().clearOpettaja(); // Clear the logged-in user
+        // Clear the logged-in user
+        KirjautunutKayttaja.getInstance().clearOpettaja();
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Navigate to the login page using NavigationManager
+        NavigationManager.getInstance().navigateTo("/login.fxml", event);
     }
 
     @FXML
     void openKalenteriPage(ActionEvent event) {
+        NavigationManager.getInstance().navigateTo("/kalenteri.fxml", event);
     }
 
     @FXML
     void openKurssitPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/kurssit.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/kurssit.fxml", event);
     }
 
     @FXML
     void openOppilaatPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/studentInfo.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/studentInfo.fxml", event);
     }
 
     @FXML
     void openProfiiliPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/profiili.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/profiili.fxml", event);
     }
 
     @FXML
     void openTapahtumatPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/kalenteri.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/tapahtumat.fxml", event);
     }
+
     @FXML
     void openLasnaoloPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/poissaolot.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/poissaolot.fxml", event);
     }
 
 

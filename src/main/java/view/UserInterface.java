@@ -11,6 +11,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class UserInterface extends Application {
     public UserInterface() {
     }
@@ -18,7 +20,11 @@ public class UserInterface extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/login.fxml"));
         Parent root = (Parent)fxmlLoader.load();
-        stage.setScene(new Scene(root));
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/app.css")).toExternalForm());
+
+        stage.setScene(scene);
         stage.show();
     }
 }

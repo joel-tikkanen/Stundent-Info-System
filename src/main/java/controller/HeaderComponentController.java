@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import model.KirjautunutKayttaja;
 import util.NavigationManager;
 import util.ResourceBundleManager;
@@ -17,6 +18,8 @@ public class HeaderComponentController {
 
     @FXML
     private Button navigateForward;
+
+    private @FXML Text HeaderText;
 
     @FXML
     void navigateBack(ActionEvent event) {

@@ -14,8 +14,10 @@ import model.KirjautunutKayttaja;
 import javafx.scene.image.Image;
 import model.Opettaja;
 import service.OpettajaService;
+import util.ResourceBundleManager;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class ProfiiliController {
 
@@ -46,15 +48,18 @@ public class ProfiiliController {
 
     private final OpettajaService opettajaService = new OpettajaService();
 
+    ResourceBundle bundle = ResourceBundleManager.getResourceBundle();
+
     public void initialize() {
         Image image = new Image(getClass().getResource("/defaultProfilePic.jpg").toExternalForm());
         imageView.setImage(image);
         Opettaja currentOpettaja = KirjautunutKayttaja.getInstance().getOpettaja();
         if (currentOpettaja != null) {
-            OpettajaIdLabel.setText("Opettaja ID: " + currentOpettaja.getOpettaja_id());
-            EtunimiLabel.setText("Etunimi: " + currentOpettaja.getEtunimi());
-            SukunimiLabel.setText("Sukunimi: " + currentOpettaja.getSukunimi());
-            SahkopostiLabel.setText("Sähköposti: " + currentOpettaja.getSahkoposti());
+
+            OpettajaIdLabel.setText(String.format("%s %d", OpettajaIdLabel.getText(), currentOpettaja.getOpettaja_id()));
+            EtunimiLabel.setText(String.format("%s %s", bundle.getString("profile.firstName"), currentOpettaja.getEtunimi()));
+            SukunimiLabel.setText(String.format("%s %s", bundle.getString("profile.lastName"), currentOpettaja.getSukunimi()));
+            SahkopostiLabel.setText(String.format("%s %s", bundle.getString("profile.email"), currentOpettaja.getSahkoposti()));
         }
     }
 
@@ -74,6 +79,9 @@ public class ProfiiliController {
 
     @FXML
     public void tallennaMuutokset(ActionEvent event) {
+
+
+
         Opettaja currentOpettaja = KirjautunutKayttaja.getInstance().getOpettaja();
 
         if (!EtunimiTextField.getText().isEmpty()) {
@@ -89,9 +97,9 @@ public class ProfiiliController {
         // Update the Opettaja in the database
         opettajaService.updateOpettaja(currentOpettaja.getOpettaja_id(), currentOpettaja);
 
-        EtunimiLabel.setText("Etunimi: " + currentOpettaja.getEtunimi());
-        SukunimiLabel.setText("Sukunimi: " + currentOpettaja.getSukunimi());
-        SahkopostiLabel.setText("Sähköposti: " + currentOpettaja.getSahkoposti());
+        EtunimiLabel.setText(String.format("%s %s", bundle.getString("profile.firstName"), currentOpettaja.getEtunimi()));
+        SukunimiLabel.setText(String.format("%s %s", bundle.getString("profile.lastName"), currentOpettaja.getSukunimi()));
+        SahkopostiLabel.setText(String.format("%s %s", bundle.getString("profile.email"), currentOpettaja.getSahkoposti()));
 
         EtunimiTextField.setVisible(false);
         SukunimiTextField.setVisible(false);

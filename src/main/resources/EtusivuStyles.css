@@ -1,17 +1,5 @@
-.profiili-button {
-    -fx-font-size: 14px;
-    -fx-background-color: #add8e6;
-    -fx-border-color: #87ceeb;
-    -fx-border-radius: 25px;
-    -fx-border-width: 3px;
-    -fx-background-radius: 15px;
-    -fx-padding: 10px;
-    -fx-background-insets: 3px;
-}
 
-.profiili-button:hover {
-    -fx-background-color: #87ceeb;
-}
+
 
 .kurssit-button {
     -fx-font-size: 20px;
@@ -63,20 +51,7 @@
     -fx-background-color: #c0c0c0;
 }
 
-.logout-button {
-    -fx-font-size: 14px;
-    -fx-background-color: #fa8072;
-    -fx-border-color: #da5e4e;
-    -fx-border-radius: 25px;
-    -fx-border-width: 3px;
-    -fx-background-radius: 15px;
-    -fx-padding: 10px;
-    -fx-background-insets: 3px;
-}
 
-.logout-button:hover {
-    -fx-background-color: #da5e4e;
-}
 
 .paivantapahtuma {
     -fx-font-size: 20px;

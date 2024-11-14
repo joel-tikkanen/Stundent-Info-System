@@ -9,19 +9,29 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
 
 public class NavigationManager {
-    private static NavigationManager instance = new NavigationManager();
+    private static final NavigationManager instance = new NavigationManager();
 
-    private Stack<String> backStack = new Stack<>();
-    private Stack<String> forwardStack = new Stack<>();
-    private StringProperty currentView = new SimpleStringProperty();
+    private final Stack<String> backStack = new Stack<>();
+    private final Stack<String> forwardStack = new Stack<>();
+    private final StringProperty currentView = new SimpleStringProperty();
+    private final StringProperty currentTitle = new SimpleStringProperty();
+
+    private final Map<String, String> viewTitleMap;
 
     private NavigationManager() {
-        // Private constructor to enforce singleton pattern
+        // Initialize the map between FXML paths and title keys
+        viewTitleMap = new HashMap<>();
+        viewTitleMap.put("/profiili.fxml", "header.profile");
+        viewTitleMap.put("/mainMenu.fxml", "header.home");
+        viewTitleMap.put("/kurssit.fxml", "header.courses");
+        viewTitleMap.put("/login.fxml", "header.login");
+        viewTitleMap.put("/kalenteri.fxml", "header.calendar");
+        viewTitleMap.put("/studentInfo.fxml", "header.students");
+        viewTitleMap.put("/poissaolot.fxml", "header.attendance");
+        // Add other mappings as needed
     }
 
     public static NavigationManager getInstance() {
@@ -34,6 +44,10 @@ public class NavigationManager {
         }
         currentView.set(fxmlPath);
         forwardStack.clear(); // Clear forward history on new navigation
+
+        // Set the current title
+        updateCurrentTitle(fxmlPath);
+
         loadView(fxmlPath, event);
     }
 
@@ -42,6 +56,10 @@ public class NavigationManager {
             forwardStack.push(currentView.get());
             String previousView = backStack.pop();
             currentView.set(previousView);
+
+            // Set the current title
+            updateCurrentTitle(previousView);
+
             loadView(previousView, event);
         }
     }
@@ -51,6 +69,10 @@ public class NavigationManager {
             backStack.push(currentView.get());
             String nextView = forwardStack.pop();
             currentView.set(nextView);
+
+            // Set the current title
+            updateCurrentTitle(nextView);
+
             loadView(nextView, event);
         }
     }
@@ -71,9 +93,30 @@ public class NavigationManager {
         return currentView.get();
     }
 
+    public StringProperty currentTitleProperty() {
+        return currentTitle;
+    }
+
+    public String getCurrentTitle() {
+        return currentTitle.get();
+    }
+
+    private void updateCurrentTitle(String fxmlPath) {
+        String titleKey = viewTitleMap.get(fxmlPath);
+        if (titleKey != null) {
+            ResourceBundle bundle = ResourceBundleManager.getResourceBundle();
+            String title = bundle.getString(titleKey);
+            currentTitle.set(title);
+        } else {
+            currentTitle.set("");
+        }
+    }
+
     // Update the locale in ResourceBundleManager
     public void setLocale(Locale locale) {
         ResourceBundleManager.setLocale(locale);
+        // Update the current title with the new locale
+        updateCurrentTitle(currentView.get());
     }
 
     private void loadView(String fxmlPath, ActionEvent event) {
@@ -84,7 +127,11 @@ public class NavigationManager {
 
             Parent root = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            // Apply the stylesheet if needed
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/app.css")).toExternalForm());
+
+            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,6 +140,8 @@ public class NavigationManager {
 
     // Method to reload current view with updated locale
     public void reloadCurrentView(ActionEvent event) {
+        // Update the current title with the new locale
+        updateCurrentTitle(currentView.get());
         loadView(currentView.get(), event);
     }
 }
