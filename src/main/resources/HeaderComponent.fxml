@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.HeaderComponentController"
+            prefHeight="400.0" prefWidth="600.0">
+    <!-- Profile Button with Increased Spacing -->
+    <Button fx:id="ProfiiliButton" layoutX="743.0" layoutY="65.0" mnemonicParsing="false" onAction="#openProfiiliPage" prefHeight="33.0" prefWidth="150.0" styleClass="profiili-button" text="${resource.profiili_button.text}" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="65.0">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+
+    <!-- Logout Button with Increased Spacing -->
+    <Button fx:id="LogOutButton" layoutX="934.0" layoutY="65.0" mnemonicParsing="false" onAction="#logOut" prefHeight="33.0" prefWidth="161.0" styleClass="logout-button" text="${resource.logout_button.text}" AnchorPane.rightAnchor="13.5" AnchorPane.topAnchor="65.0">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+
+    <!-- Language Selection Buttons -->
+    <Button fx:id="setFI" layoutX="77.0" layoutY="65.0" minWidth="37.0" mnemonicParsing="false" onAction="#setFI" prefHeight="33.0" prefWidth="37.0" text="FI">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+    <Button fx:id="setEN" layoutX="14.0" layoutY="65.0" minWidth="33.0" mnemonicParsing="false" onAction="#setEN" prefHeight="33.0" prefWidth="54.0" text="EN">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+    <Button fx:id="setJP" layoutX="203.0" layoutY="65.0" mnemonicParsing="false" onAction="#setJP" prefHeight="33.0" prefWidth="54.0" text="JP">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+    <Button fx:id="setIR" layoutX="140.0" layoutY="65.0" mnemonicParsing="false" onAction="#setIR" prefHeight="33.0" prefWidth="54.0" text="IR">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+
+    <!-- Header Text -->
+    <Text id="HeaderText" layoutX="479.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="${resource.header_text}" textAlignment="CENTER" wrappingWidth="150.0">
+        <font>
+            <Font size="29.0" />
+        </font>
+    </Text>
+
+    <!-- Navigation Buttons -->
+    <Button fx:id="navigateBack" layoutX="499.0" layoutY="66.0" mnemonicParsing="false" text="<-" onAction="#navigateBack"/>
+    <Button fx:id="navigateForward" layoutX="554.0" layoutY="66.0" mnemonicParsing="false" text="->" onAction="#navigateForward"/>
+
+    <Line endX="1000.0" layoutX="108.0" layoutY="106.0" startX="-108.0" />
+
+</AnchorPane>

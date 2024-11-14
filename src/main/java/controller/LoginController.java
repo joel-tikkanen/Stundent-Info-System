@@ -11,8 +11,11 @@ import javafx.stage.Stage;
 import model.KirjautunutKayttaja;
 import model.Opettaja;
 import service.OpettajaService;
+import util.NavigationManager;
+import util.ResourceBundleManager;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class LoginController {
 
@@ -29,9 +32,13 @@ public class LoginController {
         String username = loginUsername.getText();
         String password = loginPassword.getText();
 
+        ResourceBundle bundle = ResourceBundleManager.getResourceBundle();
+
         // Check if username or password is empty
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Kirjautuminen epäonnistui", "Tyhjät kentät", "Käyttäjänimi ja salasana eivät voi olla tyhjiä.");
+            showAlert(bundle.getString("login_failed.title"),
+                    bundle.getString("empty_fields.header"),
+                    bundle.getString("empty_fields.content"));
             return;
         }
 
@@ -40,18 +47,11 @@ public class LoginController {
 
         if (opettaja != null) {
             KirjautunutKayttaja.getInstance().setOpettaja(opettaja);
-
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) loginUsername.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            NavigationManager.getInstance().navigateTo("/mainMenu.fxml", event);
         } else {
-            showAlert("Kirjautuminen epäonnistui", "Virheelliset tunnukset", "Syötetty käyttäjänimi tai salasana on väärä, kokeile uudelleen!");
+            showAlert(bundle.getString("login_failed.title"),
+                    bundle.getString("invalid_credentials.header"),
+                    bundle.getString("invalid_credentials.content"));
         }
     }
 
