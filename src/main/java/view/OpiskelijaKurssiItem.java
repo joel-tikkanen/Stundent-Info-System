@@ -8,6 +8,7 @@ import model.Kurssi;
 import model.Opintosuoritus;
 import model.Opiskelija;
 import service.OpintosuoritusService;
+import util.ResourceBundleManager;
 
 import java.util.Date;
 
@@ -30,11 +31,11 @@ public class OpiskelijaKurssiItem extends HBox {
         this.getChildren().add(kurssiLabel);
 
         if (opintosuoritus != null) {
-            Label arvosanaLabel = new Label("Arvosana: " + opintosuoritus.getArvosana());
-            Label paivaLabel = new Label("Päivä: " + opintosuoritus.getArvostelupvm().toString());
+            Label arvosanaLabel = new Label(ResourceBundleManager.getLocalizedText("grade") + " : " + opintosuoritus.getArvosana());
+            Label paivaLabel = new Label(ResourceBundleManager.getLocalizedText("date") + ": " + opintosuoritus.getArvostelupvm().toString());
             this.getChildren().addAll(arvosanaLabel, paivaLabel);
         } else {
-            Button addButton = new Button("Lisää arvosana");
+            Button addButton = new Button(ResourceBundleManager.getLocalizedText("add_grade_button"));
             addButton.setOnAction(e -> showAddGradePopup());
             this.getChildren().add(addButton);
         }
@@ -42,10 +43,10 @@ public class OpiskelijaKurssiItem extends HBox {
 
     private void showAddGradePopup() {
         Dialog<Opintosuoritus> dialog = new Dialog<>();
-        dialog.setTitle("Lisää arvosana");
-        dialog.setHeaderText("Lisää arvosana kurssille " + kurssi.getNimi());
+        dialog.setTitle(ResourceBundleManager.getLocalizedText("add_grade_dialog_title"));
+        dialog.setHeaderText(ResourceBundleManager.getLocalizedText("add_grade_dialog_text") + " " + kurssi.getNimi());
 
-        ButtonType saveButtonType = new ButtonType("Tallenna", ButtonBar.ButtonData.OK_DONE);
+        ButtonType saveButtonType = new ButtonType(ResourceBundleManager.getLocalizedText("add"), ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
         GridPane grid = new GridPane();
@@ -54,12 +55,12 @@ public class OpiskelijaKurssiItem extends HBox {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField arvosanaField = new TextField();
-        arvosanaField.setPromptText("Arvosana");
+        arvosanaField.setPromptText(ResourceBundleManager.getLocalizedText("grade"));
         DatePicker datePicker = new DatePicker();
 
-        grid.add(new Label("Arvosana:"), 0, 0);
+        grid.add(new Label(ResourceBundleManager.getLocalizedText("grade")), 0, 0);
         grid.add(arvosanaField, 1, 0);
-        grid.add(new Label("Päivämäärä:"), 0, 1);
+        grid.add(new Label(ResourceBundleManager.getLocalizedText("date")), 0, 1);
         grid.add(datePicker, 1, 1);
 
         dialog.getDialogPane().setContent(grid);
@@ -73,9 +74,9 @@ public class OpiskelijaKurssiItem extends HBox {
                     return opintosuoritusService.createOpintosuoritus(newOpintosuoritus);
                 } catch (NumberFormatException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Virheellinen syöte");
+                    alert.setTitle(ResourceBundleManager.getLocalizedText("invalid_input_title"));
                     alert.setHeaderText(null);
-                    alert.setContentText("Arvosanan täytyy olla numero.");
+                    alert.setContentText(ResourceBundleManager.getLocalizedText("invalid_input_message"));
                     alert.showAndWait();
                     return null;
                 }
@@ -88,8 +89,8 @@ public class OpiskelijaKurssiItem extends HBox {
                 this.opintosuoritus = result;
                 this.getChildren().clear();
                 Label kurssiLabel = new Label(kurssi.getNimi());
-                Label arvosanaLabel = new Label("Arvosana: " + opintosuoritus.getArvosana());
-                Label paivaLabel = new Label("Päivä: " + opintosuoritus.getArvostelupvm().toString());
+                Label arvosanaLabel = new Label(ResourceBundleManager.getLocalizedText("grade") + opintosuoritus.getArvosana());
+                Label paivaLabel = new Label(ResourceBundleManager.getLocalizedText("date") +opintosuoritus.getArvostelupvm().toString());
                 this.getChildren().addAll(kurssiLabel, arvosanaLabel, paivaLabel);
             }
         });

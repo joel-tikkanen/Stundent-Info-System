@@ -8,17 +8,19 @@ import model.Kurssi;
 import model.KurssiIlmoittautuminen;
 import model.Opiskelija;
 import service.KurssiIlmoittautuminenService;
+import util.ResourceBundleManager;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class OpiskelijaIlmoittautuminenItem extends ListCell<Opiskelija> {
 
-    private HBox hBox = new HBox(10);
-    private Text text = new Text();
+    private final HBox hBox = new HBox(10);
+    private final Text text = new Text();
 
-    private Button lisaaButton = new Button("Lisää kurssille");
-    private Button poistaButton = new Button("Poista kurssilta");
+    private final Button lisaaButton = new Button(ResourceBundleManager.getLocalizedText("add"));
+    private final Button poistaButton = new Button(ResourceBundleManager.getLocalizedText("delete"));
 
     private Opiskelija opiskelija;
     private final KurssiIlmoittautuminenService kis;

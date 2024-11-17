@@ -97,7 +97,7 @@ public class MainMenuController {
 
     @FXML
     void openTapahtumatPage(ActionEvent event) {
-        NavigationManager.getInstance().navigateTo("/tapahtumat.fxml", event);
+        NavigationManager.getInstance().navigateTo("/kalenteri.fxml", event);
     }
 
     @FXML

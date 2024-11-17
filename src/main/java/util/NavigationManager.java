@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Kurssi;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,6 +22,12 @@ public class NavigationManager {
 
     private final Map<String, String> viewTitleMap;
 
+    private Stage primaryStage;
+
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+    }
+
     private NavigationManager() {
         // Initialize the map between FXML paths and title keys
         viewTitleMap = new HashMap<>();
@@ -31,8 +38,11 @@ public class NavigationManager {
         viewTitleMap.put("/kalenteri.fxml", "header.calendar");
         viewTitleMap.put("/studentInfo.fxml", "header.students");
         viewTitleMap.put("/poissaolot.fxml", "header.attendance");
-        // Add other mappings as needed
+        viewTitleMap.put("/lisaaKurssi.fxml", "header.courses");
+
     }
+
+
 
     public static NavigationManager getInstance() {
         return instance;
@@ -112,6 +122,8 @@ public class NavigationManager {
         }
     }
 
+    private void openUusiKurssiWindow(ActionEvent event, Kurssi kurssi){}
+
     // Update the locale in ResourceBundleManager
     public void setLocale(Locale locale) {
         ResourceBundleManager.setLocale(locale);
@@ -120,15 +132,40 @@ public class NavigationManager {
     }
 
     private void loadView(String fxmlPath, ActionEvent event) {
+        loadView(fxmlPath, event, null);
+    }
+
+    private void loadView(String fxmlPath, ActionEvent event, Object data) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             ResourceBundle bundle = ResourceBundleManager.getResourceBundle();
             loader.setResources(bundle);
 
             Parent root = loader.load();
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Set RTL orientation for Persian (fa) locale
+            if (ResourceBundleManager.getCurrentLocale().getLanguage().equals("fa")) {
+                root.setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+            } else {
+                root.setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+            }
+
+            Object controller = loader.getController();
+            if (controller instanceof DataReceiver) {
+                ((DataReceiver) controller).initData(data);
+            }
+
+            // Pass data to the controller if data is not null
+
+
+            Stage stage;
+            if (event != null) {
+                stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            } else {
+                stage = primaryStage;
+            }
+
             Scene scene = new Scene(root);
-            // Apply the stylesheet if needed
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/app.css")).toExternalForm());
 
             stage.setScene(scene);
@@ -138,10 +175,39 @@ public class NavigationManager {
         }
     }
 
-    // Method to reload current view with updated locale
-    public void reloadCurrentView(ActionEvent event) {
-        // Update the current title with the new locale
-        updateCurrentTitle(currentView.get());
-        loadView(currentView.get(), event);
+
+
+    public void setInitialView(String fxmlPath, Stage stage) {
+        currentView.set(fxmlPath);
+        primaryStage = stage;
+        loadView(fxmlPath, null);
     }
+
+    public void navigateTo(String fxmlPath, ActionEvent event, Object data) {
+        if (currentView.get() != null) {
+            backStack.push(currentView.get());
+        }
+        currentView.set(fxmlPath);
+        forwardStack.clear(); // Clear forward history on new navigation
+
+        // Set the current title
+        updateCurrentTitle(fxmlPath);
+
+        loadView(fxmlPath, event, data);
+    }
+
+
+
+
+    public void reloadCurrentView(ActionEvent event) {
+        if (currentView.get() != null) {
+            // Update the current title with the new locale
+            updateCurrentTitle(currentView.get());
+            loadView(currentView.get(), event);
+        } else {
+            // Handle the case when currentView is null
+            System.err.println("Current view is null. Cannot reload view.");
+        }
+    }
+
 }

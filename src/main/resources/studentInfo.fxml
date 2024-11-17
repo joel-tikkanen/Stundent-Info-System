@@ -2,58 +2,69 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.ListView?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@StudentInfoStyles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentInfoController">
-   <children>
-      <Text layoutX="417.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oppilasrekisteri" textAlignment="CENTER" textOrigin="CENTER">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Text>
-      <Button fx:id="ProfiiliButton" contentDisplay="RIGHT" layoutX="680.0" layoutY="14.0" mnemonicParsing="false" onAction="#openProfiiliPage" prefHeight="25.0" prefWidth="90.0" styleClass="profiili-button" text="Profiili" AnchorPane.rightAnchor="152.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Line endX="913.0" layoutX="105.0" layoutY="73.0" startX="-105.0" />
-      <Button fx:id="LogOutButton" contentDisplay="RIGHT" layoutX="905.0" layoutY="14.0" mnemonicParsing="false" onAction="#CloseProgram" prefHeight="25.0" prefWidth="120.0" styleClass="logout-button" text="Kirjaudu ulos" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="14.0" />
-      <Text layoutX="40.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-label-title" text="Oppilaan tiedot">
-         <font>
-            <Font name="System Bold" size="19.0" />
-         </font>
-      </Text>
-      <TableView fx:id="StudentTableView" layoutX="480.0" layoutY="170.0" prefHeight="303.0" prefWidth="459.0" styleClass="list-view">
-         <columns>
-            <TableColumn fx:id="idColumn" text="Oppilas ID" />
-            <TableColumn fx:id="firstNameColumn" text="Etunimi" />
-            <TableColumn fx:id="lastNameColumn" text="Sukunimi" />
-         </columns>
-      </TableView>
-      <ListView fx:id="opiskelijanKurssitList" layoutX="480.0" layoutY="170.0" prefHeight="303.0" prefWidth="459.0" styleClass="list-view" visible="false"/>
-      <VBox layoutX="40.0" layoutY="170.0" prefHeight="200.0" prefWidth="356.0" styleClass="info-window">
-         <children>
-            <Label fx:id="nimiLabel" styleClass="info-label" text="Nimi:" />
-            <Label fx:id="sahkopostiLabel" styleClass="info-label" text="Sähköposti:" />
-            <Label fx:id="puhelinnumeroLabel" styleClass="info-label" text="Puhelinnumero:" />
-            <Label fx:id="huoltajaLabel" styleClass="info-label" text="Huoltaja:" />
-            <Button mnemonicParsing="false" fx:id="naytaKurssitButton" prefHeight="26.0" prefWidth="149.0" text="Näytä oppilaan kurssit" onAction="#showCourses"/>
-         </children>
-      </VBox>
-      <TextField fx:id="SearchTextField" layoutX="480.0" layoutY="110.0" prefHeight="22.0" prefWidth="200.0" promptText="Syötä oppilaan nimi" styleClass="search-text" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@StudentInfoStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentInfoController">
+   <fx:include source="HeaderComponent.fxml" />
+   <Text layoutX="40.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-label-title" text="%student.info">
+      <font>
+         <Font name="System Bold" size="19.0" />
+      </font>
+   </Text>
+   <TableView fx:id="StudentTableView" layoutX="480.0" layoutY="170.0" prefHeight="303.0" prefWidth="459.0" styleClass="list-view">
+      <columns>
+         <TableColumn fx:id="idColumn" text="%student.id" />
+         <TableColumn fx:id="firstNameColumn" text="%first.name" />
+         <TableColumn fx:id="lastNameColumn" text="%last.name" />
+      </columns>
+   </TableView>
+   <ListView fx:id="opiskelijanKurssitList" layoutX="480.0" layoutY="170.0" prefHeight="303.0" prefWidth="459.0" styleClass="list-view" visible="false" />
+   <VBox layoutX="40.0" layoutY="170.0" prefHeight="200.0" prefWidth="356.0" styleClass="info-window">
+      <HBox prefHeight="100.0" prefWidth="200.0">
 
-      <Button fx:id="TakaisinButton" contentDisplay="RIGHT" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#navigateBackwards" prefHeight="25.0" prefWidth="90.0" styleClass="back-button" text="Takaisin" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
-   </children>
+         <Text id="studentName" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
+               wrappingWidth="209.21630859375">
+            <font>
+               <Font size="23.0"/>
+            </font>
+         </Text>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <Text id="stundentEmail" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
+               wrappingWidth="209.21630859375">
+            <font>
+               <Font size="23.0"/>
+            </font>
+         </Text>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <Text id="stundentGuardian" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
+               wrappingWidth="209.21630859375">
+            <font>
+               <Font size="23.0"/>
+            </font>
+         </Text>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <Text id="studentPhone" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
+               wrappingWidth="170.21630859375">
+            <font>
+               <Font size="12.0"/>
+            </font>
+         </Text>
+      </HBox>
+      <Button fx:id="naytaKurssitButton" mnemonicParsing="false" onAction="#showCourses" prefHeight="26.0"
+              prefWidth="149.0" text="%show.courses"/>
+      <Button fx:id="takaisinButton" mnemonicParsing="false" onAction="#showCourses" prefHeight="26.0" prefWidth="149.0"
+              text="%back"/>
+   </VBox>
+   <TextField fx:id="SearchTextField" layoutX="480.0" layoutY="110.0" prefHeight="22.0" prefWidth="200.0" promptText="%search.prompt" styleClass="search-text" />
 </AnchorPane>

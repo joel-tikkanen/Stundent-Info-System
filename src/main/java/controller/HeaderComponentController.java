@@ -66,8 +66,7 @@ public class HeaderComponentController {
     private void changeLanguage(Locale locale, ActionEvent event) {
         NavigationManager navManager = NavigationManager.getInstance();
         navManager.setLocale(locale);
-        ResourceBundleManager.setLocale(locale);
-
         navManager.reloadCurrentView(event);
     }
+
 }

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.KirjautunutKayttaja;
 import model.Opiskelija;
@@ -30,23 +31,18 @@ public class StudentInfoController {
     @FXML
     private Button naytaKurssitButton;
     @FXML
+    private Button takaisinButton;
+    @FXML
     private ListView<OpiskelijaKurssiItem> opiskelijanKurssitList;
     @FXML
-    private Label nimiLabel;
+    private Text studentName;
     @FXML
-    private Label sahkopostiLabel;
+    private Text studentPhone;
     @FXML
-    private Label puhelinnumeroLabel;
+    private Text studentEmail;
     @FXML
-    private Label huoltajaLabel;
-    @FXML
-    private Button LogOutButton;
-    @FXML
-    private Button OppilasPageSearchButton;
-    @FXML
-    private Button ProfiiliButton;
-    @FXML
-    private Button TakaisinButton;
+    private Text studentGuardian;
+
     @FXML
     private TableView<Opiskelija> StudentTableView;
     @FXML
@@ -58,9 +54,9 @@ public class StudentInfoController {
     @FXML
     private TextField SearchTextField;
 
-    private OpiskelijaService opiskelijaService;
-    private KurssiService kurssiService;
-    private OpintosuoritusService opintosuoritusService;
+    private final OpiskelijaService opiskelijaService;
+    private final KurssiService kurssiService;
+    private final OpintosuoritusService opintosuoritusService;
     private FilteredList<Opiskelija> filteredData;
     private boolean isShowingCourses = false;
 
@@ -75,6 +71,7 @@ public class StudentInfoController {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("opiskelija_id"));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("etunimi"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("sukunimi"));
+        takaisinButton.setVisible(false);
 
         loadOpiskelijat();
 
@@ -107,31 +104,7 @@ public class StudentInfoController {
         }
     }
 
-    @FXML
-    void navigateBackwards(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @FXML
-    void openProfiiliPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/profiili.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void filterStudentList(String searchText) {
         filteredData.setPredicate(opiskelija -> {
@@ -141,28 +114,25 @@ public class StudentInfoController {
             String lowerCaseFilter = searchText.toLowerCase();
             if (opiskelija.getEtunimi().toLowerCase().contains(lowerCaseFilter)) {
                 return true;
-            } else if (opiskelija.getSukunimi().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            }
-            return false;
+            } else return opiskelija.getSukunimi().toLowerCase().contains(lowerCaseFilter);
         });
     }
 
     private void showStudentDetails(Opiskelija opiskelija) {
         if (opiskelija != null) {
-            nimiLabel.setText("Nimi: " + opiskelija.getEtunimi() + " " + opiskelija.getSukunimi());
-            sahkopostiLabel.setText("Sähköposti: " + opiskelija.getSahkoposti());
-            puhelinnumeroLabel.setText("Puhelinnumero: " + opiskelija.getPuhelinnumero());
+            studentName.setText(opiskelija.getEtunimi() + " " + opiskelija.getSukunimi());
+            studentEmail.setText(opiskelija.getSahkoposti());
+            studentPhone.setText(opiskelija.getPuhelinnumero());
             if (opiskelija.getHuoltaja() != null) {
-                huoltajaLabel.setText("Huoltaja: " + opiskelija.getHuoltaja().getEtunimi() + " " + opiskelija.getHuoltaja().getSukunimi());
+                studentGuardian.setText(opiskelija.getHuoltaja().getEtunimi() + " " + opiskelija.getHuoltaja().getSukunimi());
             } else {
-                huoltajaLabel.setText("Huoltaja: Ei määritetty");
+                studentGuardian.setText("...");
             }
         } else {
-            nimiLabel.setText("");
-            sahkopostiLabel.setText("");
-            puhelinnumeroLabel.setText("");
-            huoltajaLabel.setText("");
+            studentName.setText("");
+            studentEmail.setText("");
+            studentPhone.setText("");
+            studentGuardian.setText("");
         }
     }
 
@@ -191,12 +161,15 @@ public class StudentInfoController {
             opiskelijanKurssitList.setItems(FXCollections.observableArrayList(kurssiItems));
             StudentTableView.setVisible(false);
             opiskelijanKurssitList.setVisible(true);
-            naytaKurssitButton.setText("Takaisin");
+            naytaKurssitButton.setVisible(false);
+            takaisinButton.setVisible(true);
         } else {
             // Show student list
             StudentTableView.setVisible(true);
             opiskelijanKurssitList.setVisible(false);
             naytaKurssitButton.setText("Näytä oppilaan kurssit");
+            naytaKurssitButton.setVisible(true);
+            takaisinButton.setVisible(false);
         }
 
         isShowingCourses = !isShowingCourses;

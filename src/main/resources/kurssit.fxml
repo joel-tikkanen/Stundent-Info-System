@@ -2,73 +2,79 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@StudentInfoStyles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.KurssitController">
-   <children>
-      <fx:include source="HeaderComponent.fxml"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0"
+            stylesheets="@StudentInfoStyles.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.KurssitController">
+   <fx:include source="HeaderComponent.fxml"/>
 
-      <TableView fx:id="CourseTableView" layoutX="480.0" layoutY="178.0" prefHeight="303.0" prefWidth="459.0" styleClass="table-view">
-         <columns>
-            <TableColumn fx:id="courseNameColumn" text="Kurssin nimi" />
-            <TableColumn fx:id="courseInstructorColumn" text="Tietoa" />
-         </columns>
-      </TableView>
+   <TableView fx:id="CourseTableView" layoutX="480.0" layoutY="178.0" prefHeight="303.0" prefWidth="459.0"
+              styleClass="table-view">
+      <columns>
+         <TableColumn fx:id="courseNameColumn" prefWidth="167.0" text="%course.name"/>
+         <TableColumn fx:id="courseInstructorColumn" prefWidth="290.0" text="%course.details.title"/>
+      </columns>
+   </TableView>
 
-      <GridPane hgap="10" layoutX="40.0" layoutY="170.0" prefHeight="318.0" prefWidth="400.0" styleClass="info-window" vgap="10">
-         <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" minWidth="110.0" />
-            <ColumnConstraints hgrow="ALWAYS" />
-         </columnConstraints>
-         <children>
-            <Label styleClass="info-label" text="Tunnus:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Text fx:id="tunnusField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-            <Label styleClass="info-label" text="Opettaja:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Text fx:id="opettajaField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-            <Label styleClass="info-label" text="Nimi:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Text fx:id="nimiField"  GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-            <Label styleClass="info-label" text="Aloitus Pvm:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <Text fx:id="aloitusPvmField"  GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-            <Label styleClass="info-label" text="Lopetus Pvm:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <Text fx:id="lopetusPvmField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-            <Label styleClass="info-label" text="Kuvaus:" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.valignment="TOP" />
-            <TextArea fx:id="kuvausTextArea" editable="false" prefHeight="100" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-            <Button fx:id="editSaveButton" onAction="#handleEditSave" text="Muokkaa" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-            <Button fx:id="createNewCourseButton" layoutX="150.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCreateNewCourse" prefHeight="25.0" prefWidth="120.0" text="Luo uusi kurssi" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-            <Button fx:id="deleteCourseButton" layoutX="150.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleDeleteCourse" prefHeight="25.0" prefWidth="120.0" text="Poista kurssi" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-         </children>
+   <GridPane hgap="10" layoutX="40.0" layoutY="170.0" prefHeight="318.0" prefWidth="400.0" styleClass="info-window"
+             vgap="10">
+      <columnConstraints>
+         <ColumnConstraints hgrow="NEVER" maxWidth="142.0" minWidth="110.0" prefWidth="138.0"/>
+         <ColumnConstraints hgrow="ALWAYS" maxWidth="250.0" minWidth="222.0" prefWidth="226.0"/>
+      </columnConstraints>
 
 
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+      <rowConstraints>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+      </rowConstraints>
 
 
-      </GridPane>
+      <Label styleClass="info-label" text="%course.id" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+      <Text fx:id="tunnusField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-      <TextField fx:id="SearchTextField" layoutX="480.0" layoutY="110.0" prefHeight="22.0" prefWidth="200.0" promptText="Hae kurssia" styleClass="search-text" />
-   </children>
+      <Label styleClass="info-label" text="%course.teacher" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+      <Text fx:id="opettajaField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+      <Label styleClass="info-label" text="%course.name" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+      <Text fx:id="nimiField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+      <Label styleClass="info-label" text="%course.startDate" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+      <Text fx:id="aloitusPvmField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+      <Label styleClass="info-label" text="%course.endDate" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+      <Text fx:id="lopetusPvmField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+      <Label styleClass="info-label" text="%course.description" GridPane.columnIndex="0" GridPane.rowIndex="5"
+             GridPane.valignment="TOP"/>
+      <TextArea fx:id="kuvausTextArea" editable="false" prefHeight="100" GridPane.columnIndex="1"
+                GridPane.rowIndex="5"/>
+
+      <Button fx:id="editSaveButton" onAction="#handleEditSave" prefHeight="26.0" prefWidth="145.0" text="%edit"
+              GridPane.halignment="RIGHT" GridPane.rowIndex="6"/>
+      <Button fx:id="createNewCourseButton" layoutX="150.0" layoutY="14.0" mnemonicParsing="false"
+              onAction="#handleCreateNewCourse" prefHeight="26.0" prefWidth="228.0" text="%button.createNewCourse"
+              GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6"/>
+      <Button fx:id="deleteCourseButton" layoutX="150.0" layoutY="14.0" mnemonicParsing="false"
+              onAction="#handleDeleteCourse" prefHeight="26.0" prefWidth="229.0" text="%button.deleteCourse"
+              GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7"/>
+   </GridPane>
+
+   <TextField fx:id="SearchTextField" layoutX="480.0" layoutY="110.0" prefHeight="22.0" prefWidth="200.0"
+              promptText="%search.course" styleClass="search-text"/>
 </AnchorPane>

@@ -36,6 +36,7 @@ public class LoginController {
 
         // Check if username or password is empty
         if (username.isEmpty() || password.isEmpty()) {
+            System.out.println("EMPTY");
             showAlert(bundle.getString("login_failed.title"),
                     bundle.getString("empty_fields.header"),
                     bundle.getString("empty_fields.content"));
@@ -44,11 +45,13 @@ public class LoginController {
 
         // Validate the user using OpettajaService
         Opettaja opettaja = opettajaService.login(username, password);
-
+        System.out.println("OPE:");
+        System.out.println(opettaja);
         if (opettaja != null) {
             KirjautunutKayttaja.getInstance().setOpettaja(opettaja);
             NavigationManager.getInstance().navigateTo("/mainMenu.fxml", event);
         } else {
+            System.out.println("FAILED");
             showAlert(bundle.getString("login_failed.title"),
                     bundle.getString("invalid_credentials.header"),
                     bundle.getString("invalid_credentials.content"));

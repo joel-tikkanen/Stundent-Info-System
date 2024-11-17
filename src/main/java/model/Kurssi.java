@@ -2,6 +2,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,11 +28,17 @@ public class Kurssi {
     @Column(nullable = false)
     private Date loppupvm;
 
+    @OneToMany(mappedBy = "kurssi", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Opintosuoritus> opintosuoritukset = new ArrayList<>();
+
+    @OneToMany(mappedBy = "kurssi", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<KurssiIlmoittautuminen> ilmot = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "opettaja_id", nullable = false)
     private Opettaja opettaja;
 
-    @OneToMany(mappedBy = "kurssi", fetch = FetchType.EAGER) // Fetch eagerly
+    @OneToMany(mappedBy = "kurssi", cascade = CascadeType.ALL, orphanRemoval = true) // Fetch eagerly
     private List<Oppitunti> oppitunnit;
 
     // Constructors

@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import model.KirjautunutKayttaja;
 import model.Oppitunti;
 import service.OppituntiService;
+import util.NavigationManager;
 import view.PaivanOppitunnitList;
 
 import java.io.IOException;
@@ -32,12 +33,6 @@ public class KalenteriController {
     private Button CurrentWeekButton;
     @FXML
     private Button NextWeekButton;
-    @FXML
-    private Button ProfiiliButton;
-    @FXML
-    private Button TakaisinButton;
-    @FXML
-    private Button LogOutButton;
 
     private OppituntiService oppituntiService;
     private LocalDate currentWeekStart;
@@ -90,57 +85,9 @@ public class KalenteriController {
         loadWeekView(currentWeekStart);
     }
 
-    @FXML
-    void navigateBackwards(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void openProfiiliPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/profiili.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     void newEvent(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/lisaaOppitunti.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void CloseProgram(ActionEvent event) {
-        KirjautunutKayttaja.getInstance().clearOpettaja(); // Clear the logged-in user
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/lisaaOppitunti.fxml", event);
     }
 }

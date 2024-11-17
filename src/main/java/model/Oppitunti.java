@@ -5,6 +5,8 @@ import javax.persistence.*;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "oppitunti")
@@ -19,6 +21,9 @@ public class Oppitunti {
 
     @Column(name = "alkuaika")
     private LocalDateTime alkuaika;
+
+    @OneToMany(mappedBy = "oppitunti", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Poissaolo> poissaolot = new ArrayList<>();
 
     @Column(name = "loppuaika")
     private LocalDateTime loppuaika;
