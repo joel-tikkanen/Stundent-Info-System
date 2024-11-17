@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import model.KirjautunutKayttaja;
 import model.Kurssi;
 import service.KurssiService;
+import util.NavigationManager;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -82,33 +83,7 @@ public class KurssitController {
         }
     }
 
-    @FXML
-    void openProfiiliPage(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/profiili.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @FXML
-    void CloseProgram(ActionEvent event) {
-        KirjautunutKayttaja.getInstance().clearOpettaja(); // Clear the logged-in user
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     public void searchCourse() {
@@ -126,22 +101,7 @@ public class KurssitController {
     }
 
     private void openUusiKurssiWindow(ActionEvent event, Kurssi kurssi) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/lisaaKurssi.fxml"));
-            Parent root = loader.load();
-
-            UusiKurssiController controller = loader.getController();
-            controller.initData(kurssi); // kurssi may be null for new course
-            controller.setKurssitController(this);
-
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(kurssi == null ? "Luo uusi kurssi" : "Muokkaa kurssia");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Virhe avattaessa kurssi-ikkunaa");
-        }
+        NavigationManager.getInstance().navigateTo("/lisaaKurssi.fxml", event, kurssi);
     }
 
     public void refreshCourses(Kurssi updatedKurssi) {

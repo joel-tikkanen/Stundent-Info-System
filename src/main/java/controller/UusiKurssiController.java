@@ -16,16 +16,18 @@ import service.KurssiService;
 import service.OpettajaService;
 import service.KurssiIlmoittautuminenService;
 import service.OpiskelijaService;
+import util.DataReceiver;
+import util.NavigationManager;
 import view.OpiskelijaIlmoittautuminenItem;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class UusiKurssiController {
+public class UusiKurssiController implements DataReceiver {
     @FXML private TextField tunnusField;
     @FXML private TextField nimiField;
-    @FXML private TextField opettajaField; // email
+    @FXML private TextField opettajaField;
     @FXML private DatePicker aloitusPvmField;
     @FXML private DatePicker lopetusPvmField;
     @FXML private TextArea kuvausTextArea;
@@ -63,23 +65,34 @@ public class UusiKurssiController {
         this.kurssitController = kurssitController;
     }
 
-    public void initData(Kurssi kurssi) {
-        if (kurssi != null) {
+    @Override
+    public void initData(Object data) {
+        if (data == null) {
+            // Handle the case when data is null (creating new course)
+            this.currentKurssi = new Kurssi();
+            currentKurssi.setOpettaja(KirjautunutKayttaja.getInstance().getOpettaja());
+            System.out.println("OPE:");
+            System.out.println(KirjautunutKayttaja.getInstance().getOpettaja());
+            opettajaField.setText(currentKurssi.getOpettaja().getNimi());
+        } else if (data instanceof Kurssi) {
+            Kurssi kurssi = (Kurssi) data;
             this.currentKurssi = kurssi;
-
             populateFields();
             loadEnrollments();
         } else {
-            this.currentKurssi = new Kurssi();
-            clearFields();
-            currentKurssi.setOpettaja(KirjautunutKayttaja.getInstance().getOpettaja());
-            opettajaField.setText(currentKurssi.getOpettaja().getNimi());
+            // Handle unexpected data types if necessary
+            System.err.println("Unexpected data type in initData: " + data.getClass());
         }
     }
 
+
     private void populateFields() {
         nimiField.setText(currentKurssi.getNimi());
-        opettajaField.setText(currentKurssi.getOpettaja().getNimi());
+        System.out.println("OPETTAJA::");
+
+
+        System.out.println(KirjautunutKayttaja.getInstance().getOpettaja().getNimi());
+        opettajaField.setText(KirjautunutKayttaja.getInstance().getOpettaja().getNimi());
         aloitusPvmField.setValue(convertToLocalDate(currentKurssi.getAlkupvm()));
         lopetusPvmField.setValue(convertToLocalDate(currentKurssi.getLoppupvm()));
         kuvausTextArea.setText(currentKurssi.getKuvaus());
@@ -87,7 +100,7 @@ public class UusiKurssiController {
 
     private void clearFields() {
         nimiField.clear();
-        opettajaField.clear();
+
         aloitusPvmField.setValue(null);
         lopetusPvmField.setValue(null);
         kuvausTextArea.clear();
@@ -152,6 +165,7 @@ public class UusiKurssiController {
             showAlert("Nimi on pakollinen kenttä");
             return false;
         }
+        System.out.println(opettajaField.getText());
         if (opettajaField.getText().isEmpty()) {
             showAlert("Opettaja on pakollinen kenttä");
             return false;
@@ -179,11 +193,6 @@ public class UusiKurssiController {
         alert.showAndWait();
     }
 
-    private void closeWindow() {
-        Stage stage = (Stage) editSaveButton.getScene().getWindow();
-        stage.close();
-    }
-
     private LocalDate convertToLocalDate(Date dateToConvert) {
         if (dateToConvert == null) return null;
         return dateToConvert.toLocalDate();
@@ -199,21 +208,8 @@ public class UusiKurssiController {
         handleSave(actionEvent);
     }
 
-    public void searchCourse(ActionEvent actionEvent) { }
-
     public void navigateBackwards(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/kurssit.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.getInstance().navigateTo("/kurssit.fxml", actionEvent);
     }
 
-    public void CloseProgram(ActionEvent actionEvent) { }
-
-    public void openProfiiliPage(ActionEvent actionEvent) { }
 }
